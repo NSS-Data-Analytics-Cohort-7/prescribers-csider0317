@@ -58,11 +58,41 @@ SELECT
 
 --     c. **Challenge Question:** Are there any specialties that appear in the prescriber table that have no associated prescriptions in the prescription table?
 
+SELECT 
+    p1.specialty_description,
+    SUM(p2.total_claim_count)
+FROM prescriber AS p1
+LEFT JOIN prescription AS p2
+USING(NPI)
+WHERE p2.total_claim_count IS NULL
+GROUP BY p1.specialty_description
+-- 92 providers 
+
+
 --     d. **Difficult Bonus:** *Do not attempt until you have solved all other problems!* For each specialty, report the percentage of total claims by that specialty which are for opioids. Which specialties have a high percentage of opioids?
 
 -- 3. a. Which drug (generic_name) had the highest total drug cost?
+SELECT
+    drug.generic_name,
+    MAX(prescription.total_drug_cost)
+ FROM drug
+   LEFT JOIN prescription
+   USING(drug_name)
+WHERE prescription.total_drug_cost IS NOT NULL
+GROUP BY drug.generic_name
+ORDER BY MAX(prescription.total_drug_cost)desc
+ --"PIRFENIDONE"	2829174.3   
 
 --     b. Which drug (generic_name) has the hightest total cost per day? **Bonus: Round your cost per day column to 2 decimal places. Google ROUND to see how this works.
+SELECT
+    drug.generic_name,
+    MAX(prescription.total_drug_cost)
+ FROM drug
+   LEFT JOIN prescription
+   USING(drug_name)
+WHERE prescription.total_drug_cost IS NOT NULL
+GROUP BY drug.generic_name
+ORDER BY MAX(prescription.total_drug_cost)desc
 
 -- 4. a. For each drug in the drug table, return the drug name and then a column named 'drug_type' which says 'opioid' for drugs which have opioid_drug_flag = 'Y', says 'antibiotic' for those drugs which have antibiotic_drug_flag = 'Y', and says 'neither' for all other drugs.
 
