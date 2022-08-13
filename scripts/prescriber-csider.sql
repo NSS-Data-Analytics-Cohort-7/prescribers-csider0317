@@ -159,12 +159,24 @@ FROM population as p
         WHERE cbsaname like '%TN%'
         GROUP BY p.fipscounty, c.cbsaname, f.county
         ORDER BY total_pop DESC
- --RUTHERFORD
+ --SUMNER
         
 -- 6. 
 --     a. Find all rows in the prescription table where total_claims is at least 3000. Report the drug_name and the total_claim_count.
-
+SELECT
+    total_claim_count,
+    drug_name
+ FROM prescription 
+ WHERE total_claim_count >= 3000
 --     b. For each instance that you found in part a, add a column that indicates whether the drug is an opioid.
+SELECT
+    p.total_claim_count,
+    p.drug_name,
+    d.opioid_drug_flag
+ FROM prescription AS p
+ LEFT JOIN drug as d
+    ON p.drug_name=d.drug_name
+ WHERE d.opioid_drug_flag='Y' AND total_claim_count >= 3000
 
 --     c. Add another column to you answer from the previous part which gives the prescriber first and last name associated with each row.
 
