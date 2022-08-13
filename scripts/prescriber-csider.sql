@@ -85,14 +85,15 @@ ORDER BY MAX(prescription.total_drug_cost)desc
 
 --     b. Which drug (generic_name) has the hightest total cost per day? **Bonus: Round your cost per day column to 2 decimal places. Google ROUND to see how this works.
 SELECT
-    drug.generic_name,
-    MAX(prescription.total_drug_cost)
- FROM drug
+    drug.generic_name,          ROUND(prescription.total_drug_cost/NULLIF(prescription.total_day_supply,0),2) AS cost_per_day,
+    prescription.total_day_supply
+FROM drug
    LEFT JOIN prescription
    USING(drug_name)
-WHERE prescription.total_drug_cost IS NOT NULL
-GROUP BY drug.generic_name
-ORDER BY MAX(prescription.total_drug_cost)desc
+   WHERE ROUND(prescription.total_drug_cost/NULLIF(prescription.total_day_supply,0))>0
+    GROUP BY drug.generic_name,prescription.total_day_supply,                       cost_per_day
+    ORDER BY cost_per_day DESC
+    --"IMMUN GLOB G(IGG)/GLY/IGA OV50"	7141.11
 
 -- 4. a. For each drug in the drug table, return the drug name and then a column named 'drug_type' which says 'opioid' for drugs which have opioid_drug_flag = 'Y', says 'antibiotic' for those drugs which have antibiotic_drug_flag = 'Y', and says 'neither' for all other drugs.
 
