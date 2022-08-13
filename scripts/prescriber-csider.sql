@@ -128,7 +128,13 @@ SELECT
  
      
 -- 5. a. How many CBSAs are in Tennessee? **Warning:** The cbsa table contains information for all states, not just Tennessee.
-
+SELECT 
+    COUNT(cbsa),
+    cbsaname AS TN
+FROM cbsa 
+ WHERE cbsaname LIKE '%TN%'
+ group by cbsaname
+ 
 --     b. Which cbsa has the largest combined population? Which has the smallest? Report the CBSA name and total population.
 
 --     c. What is the largest (in terms of population) county which is not included in a CBSA? Report the county name and population.
