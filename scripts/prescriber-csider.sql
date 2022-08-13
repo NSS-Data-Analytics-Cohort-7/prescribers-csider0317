@@ -138,12 +138,13 @@ FROM cbsa
 --     b. Which cbsa has the largest combined population? Which has the smallest? Report the CBSA name and total population.
 SELECT 
     DISTINCT(cbsa.cbsaname),
-    SUM(population.population)
+    SUM(population.population)AS total_pop
  FROM cbsa
  left join population
  ON cbsa.fipscounty=population.fipscounty
  WHERE cbsaname LIKE '%TN%' AND population is NOT NULL
  GROUP BY  DISTINCT(cbsa.cbsaname)
+ ORDER BY total_pop DESC
 --     c. What is the largest (in terms of population) county which is not included in a CBSA? Report the county name and population.
 
 -- 6. 
