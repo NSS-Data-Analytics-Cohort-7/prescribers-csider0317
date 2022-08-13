@@ -195,6 +195,16 @@ SELECT
 -- 7. The goal of this exercise is to generate a full list of all pain management specialists in Nashville and the number of claims they had for each opioid. **Hint:** The results from all 3 parts will have 637 rows.
 
 --     a. First, create a list of all npi/drug_name combinations for pain management specialists (specialty_description = 'Pain Management') in the city of Nashville (nppes_provider_city = 'NASHVILLE'), where the drug is an opioid (opiod_drug_flag = 'Y'). **Warning:** Double-check your query before running it. You will only need to use the prescriber and drug tables since you don't need the claims numbers yet.
+SELECT
+        p.npi,
+        p.specialty_description,
+        p.nppes_provider_city,
+        d.opioid_drug_flag,
+         d.drug_name
+FROM prescriber AS p
+CROSS JOIN drug as d
+    WHERE p.nppes_provider_city='NASHVILLE' AND p.specialty_description='Pain Management' AND d.opioid_drug_flag='Y'
+
 
 --     b. Next, report the number of claims per drug per prescriber. Be sure to include all combinations, whether or not the prescriber had any claims. You should report the npi, the drug name, and the number of claims (total_claim_count).
     
